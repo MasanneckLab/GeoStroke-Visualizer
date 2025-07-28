@@ -42,6 +42,18 @@
     .dual-benefit-info p { margin: 0.5rem 0; font-size: 0.9rem; color: #1e3a8a; line-height: 1.4; }
     .download-info { font-size: 0.85rem; color: #64748b; margin-top: 0.5rem; font-style: italic; }
     
+    /* Population Table Styles */
+    .population-table-container { margin-top: 1.5rem; background: #f8fafc; padding: 1rem; border-radius: 0.75rem; border: 1px solid #e2e8f0; }
+    .population-table-container h4 { margin: 0 0 1rem 0; font-size: 1.1rem; color: #0f172a; text-align: center; }
+    .population-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    .population-table th { background: #1e293b; color: #f1f5f9; padding: 0.75rem 0.5rem; text-align: center; font-weight: 600; }
+    .population-table td { padding: 0.6rem 0.5rem; text-align: center; border-bottom: 1px solid #e2e8f0; }
+    .population-table tbody tr:hover { background: #f1f5f9; }
+    .population-table .hospital-type { font-weight: 600; background: #f8fafc; color: #475569; }
+    .population-table .time-interval { font-weight: 500; }
+    .population-table .population { color: #1f2937; font-weight: 600; }
+    .population-table .percentage { color: #6b7280; font-weight: 500; }
+    
     footer { text-align: center; font-size: 0.8rem; padding: 2rem; color: #64748b; }
     .intro { background: #fff; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1rem; }
     .intro p { margin: 0.5rem 0; }
@@ -115,6 +127,12 @@
     let metaStates   = {};
     let currentView = 'states';
     let currentRegion = null;
+    
+    // Population data variables
+    let countyPopulationData = {};
+    let statePopulationData = {};
+    let dualBenefitCountyData = {};
+    let dualBenefitStateData = {};
 
     // Scenario explanations
     const scenarioExplanations = {
@@ -125,6 +143,132 @@
       '+20min_Penalty': 'Telestroke scenario with 20 minute time penalty for remote consultation before secondary transport.',
       '+30min_Penalty': 'Telestroke scenario with 30 minute time penalty for remote consultation before secondary transport.'
     };
+
+    // Load population data functions
+    async function loadPopulationData() {
+      try {
+        const [countyPop, statePop, dualCounty, dualState] = await Promise.all([
+          fetch('Results/Counties/county_population_coverage.json').then(r => r.json()),
+          fetch('Results/States/state_population_coverage.json').then(r => r.json()),
+          fetch('Results/Dual_All_Scenarios/dual_benefit_county_stats_ALL.json').then(r => r.json()),
+          fetch('Results/Dual_All_Scenarios/dual_benefit_state_stats_ALL.json').then(r => r.json())
+        ]);
+        
+        countyPopulationData = countyPop;
+        statePopulationData = statePop;
+        dualBenefitCountyData = dualCounty;
+        dualBenefitStateData = dualState;
+      } catch(err) {
+        console.error('Failed to load population data:', err);
+      }
+    }
+
+    function createPopulationTable(state, county = null) {
+      const data = county ? countyPopulationData : statePopulationData;
+      const regionData = county ? data[state]?.[county] : data[state];
+      
+      if (!regionData) return '<p>No population data available.</p>';
+      
+      const hospitalTypes = ['Hospitals with CT', 'Extended Stroke Hospitals', 'Stroke Units'];
+      const timeIntervals = ['15', '30', '45', '60'];
+      
+      let tableHTML = `
+        <div class="population-table-container">
+          <h4>Population Coverage (${county || state})</h4>
+          <table class="population-table">
+            <thead>
+              <tr>
+                <th>Hospital Type</th>
+                <th>15 min</th>
+                <th>30 min</th>
+                <th>45 min</th>
+                <th>60 min</th>
+              </tr>
+            </thead>
+            <tbody>
+      `;
+      
+      hospitalTypes.forEach(hospitalType => {
+        if (regionData[hospitalType]) {
+          tableHTML += `<tr><td class="hospital-type">${hospitalType}</td>`;
+          timeIntervals.forEach(time => {
+            const timeData = regionData[hospitalType][time]?.[0];
+            if (timeData) {
+              tableHTML += `
+                <td>
+                  <div class="population">${timeData.covered_pop.toLocaleString()}</div>
+                  <div class="percentage">${timeData.percentage.toFixed(1)}%</div>
+                </td>
+              `;
+            } else {
+              tableHTML += '<td>-</td>';
+            }
+          });
+          tableHTML += '</tr>';
+        }
+      });
+      
+      tableHTML += `
+            </tbody>
+          </table>
+        </div>
+      `;
+      
+      return tableHTML;
+    }
+
+    function createDualBenefitTable(state, county = null, scenario = 'Normal_Speed') {
+      // Map UI scenario names to JSON scenario names
+      const scenarioMapping = {
+        'Normal_Speed': 'Normal Speed',
+        '+20pct_Speed_Emergency': '+20% Speed (Emergency)',
+        '-20pct_Speed_Traffic': '-20% Speed (Traffic)',
+        '+10min_Penalty': '+10min Penalty',
+        '+20min_Penalty': '+20min Penalty',
+        '+30min_Penalty': '+30min Penalty'
+      };
+      
+      const jsonScenario = scenarioMapping[scenario] || scenario;
+      const data = county ? dualBenefitCountyData : dualBenefitStateData;
+      const regionKey = county ? `${county} (Extended)` : `${state} (Extended)`;
+      const regionData = county ? data[state]?.[regionKey]?.[jsonScenario]?.Extended : data[regionKey]?.[jsonScenario]?.Extended;
+      
+      if (!regionData) return '<p>No dual benefit data available.</p>';
+      
+      let tableHTML = `
+        <div class="population-table-container">
+          <h4>Benefit Analysis (${county || state}) - ${jsonScenario}</h4>
+          <table class="population-table">
+            <thead>
+              <tr>
+                <th>Benefit Category</th>
+                <th>Area (%)</th>
+                <th>Population</th>
+                <th>Population (%)</th>
+              </tr>
+            </thead>
+            <tbody>
+      `;
+      
+      regionData.forEach(item => {
+        tableHTML += `
+          <tr>
+            <td class="hospital-type">${item.Category}</td>
+            <td class="percentage">${item['Area (%)'].toFixed(1)}%</td>
+            <td class="population">${item.Population.toLocaleString()}</td>
+            <td class="percentage">${item['Population (%)'].toFixed(1)}%</td>
+          </tr>
+        `;
+      });
+      
+      tableHTML += `
+            </tbody>
+          </table>
+        </div>
+      `;
+      
+      return tableHTML;
+    }
 
     // Initialize
     tabCounties.addEventListener('click', () => switchView('counties'));
@@ -146,6 +290,9 @@
         const res = await fetch(`${DATA_PATH_COUNTIES}/${META_JSON_COUNTIES}`);
         metaCounties = await res.json();
         populateStates(metaCounties, stateSel);
+        
+        // Load population data
+        await loadPopulationData();
       } catch(err) {
         panel.innerHTML = `<p style="color:#dc2626">Failed to load metadata: ${err}</p>`;
       }
@@ -256,6 +403,7 @@
         <div class="analysis-section">
           <h2>${county} - Isochrone Analysis</h2>
           <img src="${DATA_PATH_COUNTIES}/${state}/${info.image}" alt="${county} isochrone map" />
+          ${createPopulationTable(state, county)}
           <div class="download-links">
             <a class="button" href="${DATA_PATH_COUNTIES}/${state}/${info.excel}" download>Excel Data (County) ⬇︎</a>
             <a class="button" href="${DATA_PATH_COUNTIES}/${info.pdf}" download>PDF Report (All Counties) ⬇︎</a>
@@ -275,6 +423,7 @@
           ${createScenarioControls()}
           
           <img id="dualBenefitImage" src="${DATA_PATH_DUAL}/Normal_Speed/Counties/${state}/Dual_Benefit_${county.replace(/\s+/g, '_')}_Normal_Speed.png" alt="${county} dual benefit map" />
+          <div id="dualBenefitTable">${createDualBenefitTable(state, county, 'Normal_Speed')}</div>
           <div class="download-links">
             <a class="button" id="dualExcelLink" href="${DATA_PATH_DUAL}/pop_results_Normal_Speed_regular_${state}_${county.replace(/\s+/g, '_')}_(Regular)_${county.replace(/\s+/g, '_')}_(Regular).xlsx" download>County Excel Data ⬇︎</a>
             <a class="button" id="dualPdfLink" href="${DATA_PATH_DUAL}/Normal_Speed/Counties/Dual_Benefit_counties_Normal_Speed.pdf" download>PDF Report (All Counties) ⬇︎</a>
@@ -308,6 +457,7 @@
         <div class="analysis-section">
           <h2>${state} - Isochrone Analysis</h2>
           <img src="${DATA_PATH_STATES}/${info.image}" alt="${state} isochrone map" />
+          ${createPopulationTable(state)}
           <div class="download-links">
             <a class="button" href="${DATA_PATH_STATES}/${info.excel}" download>Excel Data (State) ⬇︎</a>
             <a class="button" href="${DATA_PATH_STATES}/${info.pdf}" download>PDF Report (All States) ⬇︎</a>
@@ -327,6 +477,7 @@
           ${createScenarioControls()}
           
           <img id="dualBenefitImage" src="${DATA_PATH_DUAL}/Normal_Speed/States/Dual_Benefit_${state}_Normal_Speed.png" alt="${state} dual benefit map" />
+          <div id="dualBenefitTable">${createDualBenefitTable(state, null, 'Normal_Speed')}</div>
           <div class="download-links">
             <a class="button" id="dualExcelLink" href="${DATA_PATH_DUAL}/pop_results_Normal_Speed_regular_${state.replace(/\s+/g, '_')}_(Regular)_${state.replace(/\s+/g, '_')}_(Regular).xlsx" download>State Excel Data ⬇︎</a>
             <a class="button" id="dualPdfLink" href="${DATA_PATH_DUAL}/Normal_Speed/States/Dual_Benefit_states_Normal_Speed.pdf" download>PDF Report (All States) ⬇︎</a>
@@ -352,6 +503,7 @@
       const dualBenefitImage = document.getElementById('dualBenefitImage');
       const dualPdfLink = document.getElementById('dualPdfLink');
       const dualExcelLink = document.getElementById('dualExcelLink');
+      const dualBenefitTable = document.getElementById('dualBenefitTable');
       
       if (county) {
         // County view - replace spaces with underscores for file names
@@ -362,6 +514,7 @@
         dualBenefitImage.src = `${imagePath}?t=${Date.now()}`;
         dualPdfLink.href = `${DATA_PATH_DUAL}/${selectedScenario}/Counties/Dual_Benefit_counties_${selectedScenario}.pdf`;
         dualExcelLink.href = excelPath;
+        dualBenefitTable.innerHTML = createDualBenefitTable(state, county, selectedScenario);
       } else {
         // State view
         const imagePath = `${DATA_PATH_DUAL}/${selectedScenario}/States/Dual_Benefit_${state}_${selectedScenario}.png`;
@@ -371,6 +524,7 @@
         dualBenefitImage.src = `${imagePath}?t=${Date.now()}`;
         dualPdfLink.href = `${DATA_PATH_DUAL}/${selectedScenario}/States/Dual_Benefit_states_${selectedScenario}.pdf`;
         dualExcelLink.href = excelPath;
+        dualBenefitTable.innerHTML = createDualBenefitTable(state, null, selectedScenario);
       }
     }
   </script>
