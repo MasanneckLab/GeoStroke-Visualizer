@@ -276,7 +276,7 @@
           
           <img id="dualBenefitImage" src="${DATA_PATH_DUAL}/Normal_Speed/Counties/${state}/Dual_Benefit_${county.replace(/\s+/g, '_')}_Normal_Speed.png" alt="${county} dual benefit map" />
           <div class="download-links">
-            <a class="button" id="dualExcelLink" href="${DATA_PATH_DUAL}/pop_results_Normal_Speed_regular_${state}_${county}_(Regular)_${county}_(Regular).xlsx" download>County Excel Data ⬇︎</a>
+            <a class="button" id="dualExcelLink" href="${DATA_PATH_DUAL}/pop_results_Normal_Speed_regular_${state}_${county.replace(/\s+/g, '_')}_(Regular)_${county.replace(/\s+/g, '_')}_(Regular).xlsx" download>County Excel Data ⬇︎</a>
             <a class="button" id="dualPdfLink" href="${DATA_PATH_DUAL}/Normal_Speed/Counties/Dual_Benefit_counties_Normal_Speed.pdf" download>PDF Report (All Counties) ⬇︎</a>
           </div>
           <div class="download-info">
@@ -328,7 +328,7 @@
           
           <img id="dualBenefitImage" src="${DATA_PATH_DUAL}/Normal_Speed/States/Dual_Benefit_${state}_Normal_Speed.png" alt="${state} dual benefit map" />
           <div class="download-links">
-            <a class="button" id="dualExcelLink" href="${DATA_PATH_DUAL}/pop_results_Normal_Speed_regular_${state}_(Regular)_${state}_(Regular).xlsx" download>State Excel Data ⬇︎</a>
+            <a class="button" id="dualExcelLink" href="${DATA_PATH_DUAL}/pop_results_Normal_Speed_regular_${state.replace(/\s+/g, '_')}_(Regular)_${state.replace(/\s+/g, '_')}_(Regular).xlsx" download>State Excel Data ⬇︎</a>
             <a class="button" id="dualPdfLink" href="${DATA_PATH_DUAL}/Normal_Speed/States/Dual_Benefit_states_Normal_Speed.pdf" download>PDF Report (All States) ⬇︎</a>
           </div>
           <div class="download-info">
@@ -357,7 +357,7 @@
         // County view - replace spaces with underscores for file names
         const countyFileName = county.replace(/\s+/g, '_');
         const imagePath = `${DATA_PATH_DUAL}/${selectedScenario}/Counties/${state}/Dual_Benefit_${countyFileName}_${selectedScenario}.png`;
-        const excelPath = `${DATA_PATH_DUAL}/pop_results_${selectedScenario}_regular_${state}_${county}_(Regular)_${county}_(Regular).xlsx`;
+        const excelPath = `${DATA_PATH_DUAL}/pop_results_${selectedScenario}_regular_${state}_${countyFileName}_(Regular)_${countyFileName}_(Regular).xlsx`;
         
         dualBenefitImage.src = `${imagePath}?t=${Date.now()}`;
         dualPdfLink.href = `${DATA_PATH_DUAL}/${selectedScenario}/Counties/Dual_Benefit_counties_${selectedScenario}.pdf`;
@@ -365,7 +365,8 @@
       } else {
         // State view
         const imagePath = `${DATA_PATH_DUAL}/${selectedScenario}/States/Dual_Benefit_${state}_${selectedScenario}.png`;
-        const excelPath = `${DATA_PATH_DUAL}/pop_results_${selectedScenario}_regular_${state}_(Regular)_${state}_(Regular).xlsx`;
+        const stateFileName = state.replace(/\s+/g, '_');
+        const excelPath = `${DATA_PATH_DUAL}/pop_results_${selectedScenario}_regular_${stateFileName}_(Regular)_${stateFileName}_(Regular).xlsx`;
         
         dualBenefitImage.src = `${imagePath}?t=${Date.now()}`;
         dualPdfLink.href = `${DATA_PATH_DUAL}/${selectedScenario}/States/Dual_Benefit_states_${selectedScenario}.pdf`;
