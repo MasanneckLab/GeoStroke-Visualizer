@@ -1,11 +1,11 @@
 {
   "Baden-Württemberg": {
-    "image": "Isochrones_Baden-Württemberg_CT_vs_Stroke.png",
+    "image": "Isochrones_Baden-Wuerttemberg_CT_vs_Stroke.png",
     "excel": "pop_results_Baden-Württemberg_CT_vs_Stroke.xlsx",
     "pdf": "Supplement_State_Tables_CT_vs_Stroke.pdf"
   },
   "Bayern": {
-    "image": "Isochrones_Bayern_CT_vs_Stroke.png",
+    "image": "Isochrones_Bavaria_CT_vs_Stroke.png",
     "excel": "pop_results_Bayern_CT_vs_Stroke.xlsx",
     "pdf": "Supplement_State_Tables_CT_vs_Stroke.pdf"
   },
@@ -30,27 +30,27 @@
     "pdf": "Supplement_State_Tables_CT_vs_Stroke.pdf"
   },
   "Hessen": {
-    "image": "Isochrones_Hessen_CT_vs_Stroke.png",
+    "image": "Isochrones_Hesse_CT_vs_Stroke.png",
     "excel": "pop_results_Hessen_CT_vs_Stroke.xlsx",
     "pdf": "Supplement_State_Tables_CT_vs_Stroke.pdf"
   },
   "Mecklenburg-Vorpommern": {
-    "image": "Isochrones_Mecklenburg-Vorpommern_CT_vs_Stroke.png",
+    "image": "Isochrones_Mecklenburg-Western_Pomerania_CT_vs_Stroke.png",
     "excel": "pop_results_Mecklenburg-Vorpommern_CT_vs_Stroke.xlsx",
     "pdf": "Supplement_State_Tables_CT_vs_Stroke.pdf"
   },
   "Niedersachsen": {
-    "image": "Isochrones_Niedersachsen_CT_vs_Stroke.png",
+    "image": "Isochrones_Lower_Saxony_CT_vs_Stroke.png",
     "excel": "pop_results_Niedersachsen_CT_vs_Stroke.xlsx",
     "pdf": "Supplement_State_Tables_CT_vs_Stroke.pdf"
   },
   "Nordrhein-Westfalen": {
-    "image": "Isochrones_Nordrhein-Westfalen_CT_vs_Stroke.png",
+    "image": "Isochrones_North_Rhine-Westphalia_CT_vs_Stroke.png",
     "excel": "pop_results_Nordrhein-Westfalen_CT_vs_Stroke.xlsx",
     "pdf": "Supplement_State_Tables_CT_vs_Stroke.pdf"
   },
   "Rheinland-Pfalz": {
-    "image": "Isochrones_Rheinland-Pfalz_CT_vs_Stroke.png",
+    "image": "Isochrones_Rhineland-Palatinate_CT_vs_Stroke.png",
     "excel": "pop_results_Rheinland-Pfalz_CT_vs_Stroke.xlsx",
     "pdf": "Supplement_State_Tables_CT_vs_Stroke.pdf"
   },
@@ -60,12 +60,12 @@
     "pdf": "Supplement_State_Tables_CT_vs_Stroke.pdf"
   },
   "Sachsen": {
-    "image": "Isochrones_Sachsen_CT_vs_Stroke.png",
+    "image": "Isochrones_Saxony_CT_vs_Stroke.png",
     "excel": "pop_results_Sachsen_CT_vs_Stroke.xlsx",
     "pdf": "Supplement_State_Tables_CT_vs_Stroke.pdf"
   },
   "Sachsen-Anhalt": {
-    "image": "Isochrones_Sachsen-Anhalt_CT_vs_Stroke.png",
+    "image": "Isochrones_Saxony-Anhalt_CT_vs_Stroke.png",
     "excel": "pop_results_Sachsen-Anhalt_CT_vs_Stroke.xlsx",
     "pdf": "Supplement_State_Tables_CT_vs_Stroke.pdf"
   },
@@ -75,7 +75,7 @@
     "pdf": "Supplement_State_Tables_CT_vs_Stroke.pdf"
   },
   "Thüringen": {
-    "image": "Isochrones_Thüringen_CT_vs_Stroke.png",
+    "image": "Isochrones_Thuringia_CT_vs_Stroke.png",
     "excel": "pop_results_Thüringen_CT_vs_Stroke.xlsx",
     "pdf": "Supplement_State_Tables_CT_vs_Stroke.pdf"
   }

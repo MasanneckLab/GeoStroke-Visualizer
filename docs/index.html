@@ -11,18 +11,37 @@
     body { font-family: 'Inter', sans-serif; margin: 0; padding: 0; background: #f9f9fb; color: #1e293b; }
     header { background: #0f172a; color: #f1f5f9; padding: 1rem 2rem; display: flex; align-items: center; }
     header h1 { margin: 0; font-size: 1.4rem; }
-    main { max-width: 1100px; margin: 2rem auto; padding: 0 1rem; }
+    main { max-width: 1000px; margin: 2rem auto; padding: 0 1rem; }
     .tabs { display: flex; gap: 1rem; margin-bottom: 1rem; }
     .tabs button { padding: 0.75rem 1.5rem; font-size: 1.05rem; font-weight: 600; border: none; background: #e2e8f0; border-radius: 0.5rem; cursor: pointer; }
     .tabs button.active { background: #0f172a; color: #f1f5f9; }
     .controls { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem; }
     select { padding: 0.5rem 0.75rem; border-radius: 0.5rem; border: 1px solid #cbd5e1; font-size: 1rem; }
-    .panel { display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); }
-    .card { background: #fff; border-radius: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.05); padding: 1rem; display: flex; flex-direction: column; align-items: center; }
-    .card img { max-width: 100%; border-radius: 0.75rem; }
-    .download-links { margin-top: 0.75rem; display: flex; gap: 1rem; font-size: 0.9rem; }
-    a.button { background: #0f172a; color: #f1f5f9; padding: 0.4rem 0.8rem; border-radius: 0.4rem; text-decoration: none; transition: background 0.2s; }
+    .panel { display: flex; flex-direction: column; gap: 2rem; }
+    .analysis-section { background: #fff; border-radius: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.05); padding: 2rem; }
+    .analysis-section h2 { margin: 0 0 1rem 0; font-size: 1.3rem; color: #0f172a; text-align: center; }
+    .analysis-section img { width: 100%; max-width: 100%; border-radius: 0.75rem; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    .download-links { margin-top: 1rem; display: flex; gap: 1rem; font-size: 0.9rem; flex-wrap: wrap; justify-content: center; }
+    .summary-downloads { margin-top: 1rem; display: flex; gap: 1rem; font-size: 0.85rem; flex-wrap: wrap; justify-content: center; }
+    a.button { background: #0f172a; color: #f1f5f9; padding: 0.5rem 1rem; border-radius: 0.4rem; text-decoration: none; transition: background 0.2s; font-weight: 500; }
     a.button:hover { background: #334155; }
+    a.button.summary { background: #059669; }
+    a.button.summary:hover { background: #047857; }
+    
+    .scenario-controls { background: #f8fafc; padding: 1.5rem; border-radius: 0.75rem; margin-top: 1.5rem; border: 1px solid #e2e8f0; }
+    .scenario-controls h3 { margin: 0 0 0.5rem 0; font-size: 1.2rem; color: #0f172a; }
+    .scenario-explanation-intro { font-size: 0.95rem; color: #475569; margin-bottom: 1rem; line-height: 1.5; }
+    .scenario-explanation { font-size: 0.9rem; color: #64748b; font-style: italic; margin: 1rem 0; min-height: 1.2em; background: #fff; padding: 0.75rem; border-radius: 0.5rem; border-left: 4px solid #3b82f6; }
+    .scenario-options { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1rem; }
+    .scenario-option { display: flex; align-items: center; gap: 0.5rem; background: #fff; padding: 0.5rem 0.75rem; border-radius: 0.5rem; border: 1px solid #e2e8f0; }
+    .scenario-option input[type="radio"] { margin: 0; }
+    .scenario-option label { font-size: 0.9rem; font-weight: 500; }
+    
+    .dual-benefit-info { background: #eff6ff; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1rem; border-left: 4px solid #3b82f6; }
+    .dual-benefit-info h4 { margin: 0 0 0.5rem 0; font-size: 1.05rem; color: #1e40af; }
+    .dual-benefit-info p { margin: 0.5rem 0; font-size: 0.9rem; color: #1e3a8a; line-height: 1.4; }
+    .download-info { font-size: 0.85rem; color: #64748b; margin-top: 0.5rem; font-style: italic; }
+    
     footer { text-align: center; font-size: 0.8rem; padding: 2rem; color: #64748b; }
     .intro { background: #fff; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1rem; }
     .intro p { margin: 0.5rem 0; }
@@ -38,6 +57,12 @@
       <p>This site shows driving-time-based accessibility to stroke care in Germany. In some regions, it may clinically significantly faster to drive to the nearest hospital with a CT unit and ship with running intravenous thrombolysis rather than priamry transporting to the next certified stroke unit once a stroke is suspected.</p>
       <p>For full methodology and results, see: Masanneck et al. (2025), "XXX Placeholder, <a href="https://doi.org/XXXX" target="_blank">doi:XXXX</a>.</p>
       <p><strong>Get started:</strong> Use the tabs above to choose between States or Counties, then select a region from the dropdown to view its isochrone map and download the data.</p>
+      <p> The initial graph shows you three conditions:</p>
+      <ul>
+        <li> 1. Shows you availability of hospitals with a CT.</li>
+        <li> 2. Shows you availability of hospitals that frequently (>= 100/year) treat stroke patients or are a stroke unit.</li>
+        <li> 3. Shows you availability of hospitals that have certified stroke units.</li>
+      </ul>
     </section>
     <p class="tab-explainer">Choose your view:</p>
     <div class="tabs">
@@ -60,6 +85,7 @@
         <select id="stateSelStates"></select>
       </div>
     </section>
+    
     <section class="panel" id="outputPanel">
       <p>Select a state/county to view its maps and data …</p>
     </section>
@@ -73,6 +99,7 @@
     const META_JSON_COUNTIES = 'meta.json';
     const DATA_PATH_STATES = 'Results/States';
     const META_JSON_STATES = 'meta.json';
+    const DATA_PATH_DUAL = 'Results/Dual_All_Scenarios';
 
     // UI elements
     const tabCounties   = document.getElementById('tabCounties');
@@ -86,10 +113,30 @@
 
     let metaCounties = {};
     let metaStates   = {};
+    let currentView = 'states';
+    let currentRegion = null;
+
+    // Scenario explanations
+    const scenarioExplanations = {
+      'Normal_Speed': 'Baseline scenario with normal driving speeds between hospitals.',
+      '+20pct_Speed_Emergency': 'Emergency scenario with 20% faster driving speeds (e.g., emergency vehicle privileges).',
+      '-20pct_Speed_Traffic': 'Traffic scenario with 20% slower driving speeds due to congestion or weather conditions.',
+      '+10min_Penalty': 'Telestroke scenario with 10 minute time penalty for remote consultation before secondary transport.',
+      '+20min_Penalty': 'Telestroke scenario with 20 minute time penalty for remote consultation before secondary transport.',
+      '+30min_Penalty': 'Telestroke scenario with 30 minute time penalty for remote consultation before secondary transport.'
+    };
 
     // Initialize
     tabCounties.addEventListener('click', () => switchView('counties'));
     tabStates.addEventListener('click', () => switchView('states'));
+    
+    // Global event delegation for scenario radio buttons
+    document.addEventListener('change', (e) => {
+      if (e.target && e.target.name === 'scenario') {
+        updateScenario();
+      }
+    });
+    
     init();
     // default to States tab on initial load
     switchView('states');
@@ -105,8 +152,10 @@
     }
 
     function switchView(view) {
+      currentView = view;
       // Reset
       panel.innerHTML = `<p>Select a ${view === 'states' ? 'state' : 'state/county'} to view its maps and data …</p>`;
+      
       if (view === 'states') {
         tabStates.classList.add('active'); tabCounties.classList.remove('active');
         controlsCounties.style.display = 'none'; controlsStates.style.display = '';
@@ -142,38 +191,186 @@
       countySel.onchange = () => renderCounty(state, countySel.value);
     }
 
+    function updateScenario() {
+      const selectedScenario = document.querySelector('input[name="scenario"]:checked')?.value;
+      const explanationDiv = document.getElementById('scenarioExplanation');
+      if (explanationDiv) {
+        explanationDiv.textContent = scenarioExplanations[selectedScenario] || '';
+      }
+      if (currentRegion) {
+        updateDualBenefitContent(currentRegion.state, currentRegion.county);
+      }
+    }
+
+    function createScenarioControls() {
+      const timestamp = Date.now();
+      return `
+        <div class="scenario-controls" id="scenarioControlsContainer">
+          <h3>Dual Benefit Scenario Analysis</h3>
+          <div class="scenario-explanation-intro">
+            Select different scenarios to explore how various conditions affect the potential benefit of the dual transport strategy (CT + telestroke vs. direct stroke unit transport).
+          </div>
+          <div class="scenario-explanation" id="scenarioExplanation">
+            Baseline scenario with normal driving speeds between hospitals.
+          </div>
+          <div class="scenario-options">
+            <div class="scenario-option">
+              <input type="radio" id="scenario-normal-${timestamp}" name="scenario" value="Normal_Speed" checked>
+              <label for="scenario-normal-${timestamp}">Normal Speed</label>
+            </div>
+            <div class="scenario-option">
+              <input type="radio" id="scenario-fast-${timestamp}" name="scenario" value="+20pct_Speed_Emergency">
+              <label for="scenario-fast-${timestamp}">+20% Emergency Speed</label>
+            </div>
+            <div class="scenario-option">
+              <input type="radio" id="scenario-slow-${timestamp}" name="scenario" value="-20pct_Speed_Traffic">
+              <label for="scenario-slow-${timestamp}">-20% Traffic Speed</label>
+            </div>
+            <div class="scenario-option">
+              <input type="radio" id="scenario-10min-${timestamp}" name="scenario" value="+10min_Penalty">
+              <label for="scenario-10min-${timestamp}">+10min Telestroke</label>
+            </div>
+            <div class="scenario-option">
+              <input type="radio" id="scenario-20min-${timestamp}" name="scenario" value="+20min_Penalty">
+              <label for="scenario-20min-${timestamp}">+20min Telestroke</label>
+            </div>
+            <div class="scenario-option">
+              <input type="radio" id="scenario-30min-${timestamp}" name="scenario" value="+30min_Penalty">
+              <label for="scenario-30min-${timestamp}">+30min Telestroke</label>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
     function renderCounty(state, county) {
+      currentRegion = { state, county };
       const info = metaCounties[state][county];
-      panel.innerHTML = '';
-      if (!info) { panel.textContent = 'No data'; return; }
-      const card = document.createElement('div'); card.className = 'card';
-      const img  = document.createElement('img');
-      img.src = `${DATA_PATH_COUNTIES}/${state}/${info.image}`;
-      img.alt = `${county} isochrone map`;
-      card.appendChild(img);
-      const links = document.createElement('div'); links.className = 'download-links';
-      links.innerHTML = `
-        <a class="button" href="${DATA_PATH_COUNTIES}/${state}/${info.excel}" download>Excel (single county) ⬇︎</a>
-        <a class="button" href="${DATA_PATH_COUNTIES}/${info.pdf}" download>PDF (all counties) ⬇︎</a>`;
-      card.appendChild(links);
-      panel.appendChild(card);
+      
+      if (!info) { 
+        panel.innerHTML = '<p>No data available for this county.</p>'; 
+        return; 
+      }
+
+      panel.innerHTML = `
+        <div class="analysis-section">
+          <h2>${county} - Isochrone Analysis</h2>
+          <img src="${DATA_PATH_COUNTIES}/${state}/${info.image}" alt="${county} isochrone map" />
+          <div class="download-links">
+            <a class="button" href="${DATA_PATH_COUNTIES}/${state}/${info.excel}" download>Excel Data (County) ⬇︎</a>
+            <a class="button" href="${DATA_PATH_COUNTIES}/${info.pdf}" download>PDF Report (All Counties) ⬇︎</a>
+          </div>
+          <div class="download-info">Downloads contain population and accessibility analysis for stroke care facilities.</div>
+        </div>
+        
+        <div class="analysis-section" id="dualBenefitSection">
+          <h2>${county} - Benefit Analysis</h2>
+          <div class="dual-benefit-info">
+            <h4>About Benefit Analysis</h4>
+            <p><strong>What it shows:</strong> This analysis compares time benefits of either: (1) Direct transport to the nearest certified stroke unit vs. nearest CT-equipped hospital for immediate imaging and telestroke consultation, followed by secondary transport if needed. 2) Direct transport to the nearest hospital which frequently treats stroke patients vs. nearest CT-equipped hospital for immediate imaging and telestroke consultation, followed by secondary transport if needed.</p>
+            <p><strong>Benefit areas (green):</strong> Regions where the dual strategy (CT + telestroke) would be faster than direct transport to a stroke unit or hospital which frequently treats stroke patients.</p>
+            <p><strong>Population impact:</strong> The analysis calculates how many people in each area would potentially benefit from this approach.</p>
+          </div>
+          
+          ${createScenarioControls()}
+          
+          <img id="dualBenefitImage" src="${DATA_PATH_DUAL}/Normal_Speed/Counties/${state}/Dual_Benefit_${county.replace(/\s+/g, '_')}_Normal_Speed.png" alt="${county} dual benefit map" />
+          <div class="download-links">
+            <a class="button" id="dualExcelLink" href="${DATA_PATH_DUAL}/pop_results_Normal_Speed_regular_${state}_${county}_(Regular)_${county}_(Regular).xlsx" download>County Excel Data ⬇︎</a>
+            <a class="button" id="dualPdfLink" href="${DATA_PATH_DUAL}/Normal_Speed/Counties/Dual_Benefit_counties_Normal_Speed.pdf" download>PDF Report (All Counties) ⬇︎</a>
+          </div>
+          <div class="download-info">
+            <strong>Scenario-specific downloads (above):</strong> Contain data and maps for this specific county and the selected scenario, plus graphical representations for all counties.<br/>
+            <strong>Comprehensive downloads (below):</strong> Contain summary data across all scenarios for all counties and states.
+          </div>
+          <div class="summary-downloads">
+            <a class="button summary" href="${DATA_PATH_DUAL}/dual_benefit_county_stats_ALL.xlsx" download>County Summary Excel ⬇︎</a>
+            <a class="button summary" href="${DATA_PATH_DUAL}/dual_benefit_state_stats_ALL.xlsx" download>State Summary Excel ⬇︎</a>
+            <a class="button summary" href="${DATA_PATH_DUAL}/Supplement_County_Tables_Regular_vs_Extended.pdf" download>County Supplement PDF ⬇︎</a>
+            <a class="button summary" href="${DATA_PATH_DUAL}/Supplement_State_Tables_Regular_vs_Extended.pdf" download>State Supplement PDF ⬇︎</a>
+          </div>
+        </div>
+      `;
+      
+      // Event delegation is handled globally - no need to add here
     }
 
     function renderState(state) {
+      currentRegion = { state };
       const info = metaStates[state];
-      panel.innerHTML = '';
-      if (!info) { panel.textContent = 'No data'; return; }
-      const card = document.createElement('div'); card.className = 'card';
-      const img  = document.createElement('img');
-      img.src = `${DATA_PATH_STATES}/${info.image}`;
-      img.alt = `${state} isochrone map`;
-      card.appendChild(img);
-      const links = document.createElement('div'); links.className = 'download-links';
-      links.innerHTML = `
-        <a class="button" href="${DATA_PATH_STATES}/${info.excel}" download>Excel (single state) ⬇︎</a>
-        <a class="button" href="${DATA_PATH_STATES}/${info.pdf}" download>PDF (all states) ⬇︎</a>`;
-      card.appendChild(links);
-      panel.appendChild(card);
+      
+      if (!info) { 
+        panel.innerHTML = '<p>No data available for this state.</p>'; 
+        return; 
+      }
+
+      panel.innerHTML = `
+        <div class="analysis-section">
+          <h2>${state} - Isochrone Analysis</h2>
+          <img src="${DATA_PATH_STATES}/${info.image}" alt="${state} isochrone map" />
+          <div class="download-links">
+            <a class="button" href="${DATA_PATH_STATES}/${info.excel}" download>Excel Data (State) ⬇︎</a>
+            <a class="button" href="${DATA_PATH_STATES}/${info.pdf}" download>PDF Report (All States) ⬇︎</a>
+          </div>
+          <div class="download-info">Downloads contain population and accessibility analysis for stroke care or CT facilities.</div>
+        </div>
+        
+        <div class="analysis-section" id="dualBenefitSection">
+          <h2>${state} - Benefit Analysis</h2>
+          <div class="dual-benefit-info">
+            <h4>About Benefit Analysis</h4>
+            <p><strong>What it shows:</strong> This analysis compares time benefits of either: (1) Direct transport to the nearest certified stroke unit vs. nearest CT-equipped hospital for immediate imaging and telestroke consultation, followed by secondary transport if needed. 2) Direct transport to the nearest hospital which frequently treats stroke patients vs. nearest CT-equipped hospital for immediate imaging and telestroke consultation, followed by secondary transport if needed.</p>
+            <p><strong>Benefit areas (green):</strong> Regions where the dual strategy (CT + telestroke) would be faster than direct transport to a stroke unit or hospital which frequently treats stroke patients.</p>
+            <p><strong>Population impact:</strong> The analysis calculates how many people in each area would potentially benefit from this approach.</p>
+          </div>
+          
+          ${createScenarioControls()}
+          
+          <img id="dualBenefitImage" src="${DATA_PATH_DUAL}/Normal_Speed/States/Dual_Benefit_${state}_Normal_Speed.png" alt="${state} dual benefit map" />
+          <div class="download-links">
+            <a class="button" id="dualExcelLink" href="${DATA_PATH_DUAL}/pop_results_Normal_Speed_regular_${state}_(Regular)_${state}_(Regular).xlsx" download>State Excel Data ⬇︎</a>
+            <a class="button" id="dualPdfLink" href="${DATA_PATH_DUAL}/Normal_Speed/States/Dual_Benefit_states_Normal_Speed.pdf" download>PDF Report (All States) ⬇︎</a>
+          </div>
+          <div class="download-info">
+            <strong>Scenario-specific downloads (above):</strong> Contain data and maps for this specific state and the selected scenario, plus graphical representations for all states.<br/>
+            <strong>Comprehensive downloads (below):</strong> Contain summary data across all scenarios for all counties and states.
+          </div>
+          <div class="summary-downloads">
+            <a class="button summary" href="${DATA_PATH_DUAL}/dual_benefit_county_stats_ALL.xlsx" download>County Summary Excel ⬇︎</a>
+            <a class="button summary" href="${DATA_PATH_DUAL}/dual_benefit_state_stats_ALL.xlsx" download>State Summary Excel ⬇︎</a>
+            <a class="button summary" href="${DATA_PATH_DUAL}/Supplement_County_Tables_Regular_vs_Extended.pdf" download>County Supplement PDF ⬇︎</a>
+            <a class="button summary" href="${DATA_PATH_DUAL}/Supplement_State_Tables_Regular_vs_Extended.pdf" download>State Supplement PDF ⬇︎</a>
+          </div>
+        </div>
+      `;
+      
+      // Event delegation is handled globally - no need to add here
+    }
+
+    function updateDualBenefitContent(state, county = null) {
+      const selectedScenario = document.querySelector('input[name="scenario"]:checked').value;
+      const dualBenefitImage = document.getElementById('dualBenefitImage');
+      const dualPdfLink = document.getElementById('dualPdfLink');
+      const dualExcelLink = document.getElementById('dualExcelLink');
+      
+      if (county) {
+        // County view - replace spaces with underscores for file names
+        const countyFileName = county.replace(/\s+/g, '_');
+        const imagePath = `${DATA_PATH_DUAL}/${selectedScenario}/Counties/${state}/Dual_Benefit_${countyFileName}_${selectedScenario}.png`;
+        const excelPath = `${DATA_PATH_DUAL}/pop_results_${selectedScenario}_regular_${state}_${county}_(Regular)_${county}_(Regular).xlsx`;
+        
+        dualBenefitImage.src = `${imagePath}?t=${Date.now()}`;
+        dualPdfLink.href = `${DATA_PATH_DUAL}/${selectedScenario}/Counties/Dual_Benefit_counties_${selectedScenario}.pdf`;
+        dualExcelLink.href = excelPath;
+      } else {
+        // State view
+        const imagePath = `${DATA_PATH_DUAL}/${selectedScenario}/States/Dual_Benefit_${state}_${selectedScenario}.png`;
+        const excelPath = `${DATA_PATH_DUAL}/pop_results_${selectedScenario}_regular_${state}_(Regular)_${state}_(Regular).xlsx`;
+        
+        dualBenefitImage.src = `${imagePath}?t=${Date.now()}`;
+        dualPdfLink.href = `${DATA_PATH_DUAL}/${selectedScenario}/States/Dual_Benefit_states_${selectedScenario}.pdf`;
+        dualExcelLink.href = excelPath;
+      }
     }
   </script>
 </body>
