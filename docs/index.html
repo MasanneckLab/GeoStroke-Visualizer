@@ -363,11 +363,22 @@
             .then(json => {
               metaStates = json;
               populateStates(metaStates, stateSelStates);
+              // If a state was selected, render it
+              if (stateSelStates.value) {
+                renderState(stateSelStates.value);
+              }
             });
+        } else if (stateSelStates.value) {
+          // If metadata was already loaded and a state is selected, render it
+          renderState(stateSelStates.value);
         }
       } else {
         tabCounties.classList.add('active'); tabStates.classList.remove('active');
         controlsStates.style.display = 'none'; controlsCounties.style.display = '';
+        // If a county was selected, render it
+        if (stateSel.value && countySel.value) {
+          renderCounty(stateSel.value, countySel.value);
+        }
       }
     }
 
