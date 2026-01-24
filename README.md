@@ -9,7 +9,7 @@ An interactive web application for exploring driving-time-based accessibility to
 ## Publication
 
 For detailed methodology and results, see:
-Masanneck et al. (2025), "XXX Placeholder", [doi:XXXX](https://doi.org/XXXX)
+Masanneck et al. (2025), "Direct stroke unit access versus a hub-and-spoke model with telemedicine-assisted CT in Germany: a cross-sectional geospatial analysis", *Lancet Regional Health Europe* (accepted). DOI and link to follow.
 
 ## Features
 
