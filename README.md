@@ -4,12 +4,12 @@ An interactive web application for exploring driving-time-based accessibility to
 
 **🌐 [Access the Interactive Explorer](https://masannecklab.github.io/GeoStroke-Visualizer/)**
 
-## The underlying analysis notebook can be found here: XXX (Placeholder)
+## The underlying analysis notebook can be found here: https://github.com/MasanneckLab/GeoStroke-Analyses 
 
 ## Publication
 
 For detailed methodology and results, see:
-Masanneck et al. (2025), "Direct stroke unit access versus a hub-and-spoke model with telemedicine-assisted CT in Germany: a cross-sectional geospatial analysis", *Lancet Regional Health Europe* (accepted). DOI and link to follow.
+Masanneck et al. (2025), "Direct stroke unit access versus a hub-and-spoke model with telemedicine-assisted CT in Germany: a cross-sectional geospatial analysis", *Lancet Regional Health Europe* (accepted). 10.1016/j.lanepe.2026.101604. - https://doi.org/10.1016/j.lanepe.2026.101604. 
 
 ## Features
 
